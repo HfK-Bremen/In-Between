@@ -13,7 +13,7 @@ public class MotorInterface
         extends PApplet {
 
    private Serial mSerial;
-   final int numberOfLeinwaende = 17;
+   final int numberOfLeinwaende = 2;
    Leinwand[] leinwaende;
    ControlP5 controlP5;
    int margin = 10;
@@ -33,10 +33,10 @@ public class MotorInterface
         drawLeinwaende=true;
         breiteSingleView=(width-9*margin)/8;
         hoeheSingleView=breiteSingleView+breiteSingleView/3;
-        //mSerial = Serial.open("/dev/tty.SLAB_USBtoUART");
-        //mSerial.write("#*@A\r");
-        //mSerial.write("#*p2\r");
-        //mSerial.write("#*o60\r");
+        mSerial = Serial.open("/dev/tty.SLAB_USBtoUART");
+        mSerial.write("#*@A\r");
+        mSerial.write("#*p2\r");
+        mSerial.write("#*o60\r");
         controlP5 = new ControlP5(this);
         leinwaende = new Leinwand[ numberOfLeinwaende ];
         for ( int i = 0; i < numberOfLeinwaende; i++ ) {
@@ -250,6 +250,7 @@ public class MotorInterface
                     GO();
                 }else{
                 leinwaende[theEvent.controller().id()].steps=(int)theEvent.controller().value();
+                mSerial.write("#"+(theEvent.controller().id()+1)+"s"+leinwaende[theEvent.controller().id()].steps+"\r");
                 }
             } else if (theEvent.isTab()) {
                 if (theEvent.tab().id()==18){
@@ -265,7 +266,7 @@ public class MotorInterface
         }
     
     public void GO(){
-        //mSerial.write("#*A\r");
+        mSerial.write("#*A\r");
         //OscMessage myMessage = new OscMessage("Motorposition");
         //myMessage.add(180.8); /* add an int to the osc message */
         //oscObjekt.send(myMessage, oscEmpfaenger);

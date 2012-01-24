@@ -13,9 +13,11 @@ public class SketchSendingReceiving
     ControlP5 controlP5;
     private Serial mSerial;
     boolean drehModus;
+    char motor;
     public void setup() {
         size(120,310);//beim skalieren verhältnis beachten ca 16/10
         background(0);
+        motor='*';
         //Serial.listPorts();
         controlP5 = new ControlP5(this);
         controlP5.addButton("Start",0,10,10,100,20).setId(1);
@@ -44,10 +46,12 @@ public class SketchSendingReceiving
 
     public void keyPressed() {
         if (key == '1') {
-            mSerial.write("#*s100\r");
+            //mSerial.write("#*s100\r");
+            motor='1';
         }
         if (key == '2') {
-            mSerial.write("#*s200\r");
+            //mSerial.write("#*s200\r");
+            motor='2';
         }
         if (key == '3') {
             mSerial.write("#*s300\r");
@@ -74,47 +78,48 @@ public class SketchSendingReceiving
             mSerial.write("#*A\r");
         }
         if (key == '0') {
-            mSerial.write("#*A\r");
+            //mSerial.write("#*A\r");
+            motor='*';
         }
     }
     
     void controlEvent(ControlEvent theEvent) {    
             switch (theEvent.controller().id()) {
                 case(1):
-                    mSerial.write("#*A\r");
+                    mSerial.write("#"+motor+"A\r");
                     break;
                 case(2):
-                    mSerial.write("#*S\r");
+                    mSerial.write("#"+motor+"S\r");
                     break;
                 case(3):
                     if (drehModus){
-                        mSerial.write("#*p2\r");
+                        mSerial.write("#"+motor+"p2\r");
                         drehModus=false;
                     }else {
-                        mSerial.write("#*p5\r");
+                        mSerial.write("#"+motor+"p5\r");
                         drehModus=true;
                     }
                     break;
                 case(4):
-                    mSerial.write("#*s0\r");
+                    mSerial.write("#"+motor+"s0\r");
                     break;
                 case(5):
-                    mSerial.write("#*s100\r");
+                    mSerial.write("#"+motor+"s100\r");
                     break;
                 case(6):
-                    mSerial.write("#*s200\r");
+                    mSerial.write("#"+motor+"s200\r");
                     break;
                 case(7):
-                    mSerial.write("#*s300\r");
+                    mSerial.write("#"+motor+"s300\r");
                     break;
                 case(8):
-                    mSerial.write("#*s400\r");
+                    mSerial.write("#"+motor+"s400\r");
                     break;
                 case(9):
-                    mSerial.write("#*+\r");
+                    mSerial.write("#"+motor+"+\r");
                     break;
                 case(10):
-                    mSerial.write("#*-\r");
+                    mSerial.write("#"+motor+"-\r");
                     break;
                     
             }

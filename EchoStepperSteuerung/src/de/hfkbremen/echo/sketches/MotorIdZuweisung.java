@@ -22,8 +22,8 @@ public class MotorIdZuweisung
     public void setup() {
         Serial.listPorts();
         size(300,300);
-        //mSerial = Serial.open("/dev/tty.SLAB_USBtoUART");
-        //mSerial.write("#*@A\r");
+        mSerial = Serial.open("/dev/tty.SLAB_USBtoUART");
+        mSerial.write("#*@A\r");
         controlP5 = new ControlP5(this);
         myTextfield = controlP5.addTextfield("Motoradresse",(width/2)-100,(height/2)-10,200,20);
         myTextfield.setFocus(true);
@@ -42,14 +42,14 @@ public class MotorIdZuweisung
         String motorID = myTextfield.stringValue();
         i = Integer.parseInt(motorID);
         println(i);
-        //mSerial.write("#*m"+i+"\r");
+        mSerial.write("#*m"+i+"\r");
         delay(10);
-        //mSerial.write("#*Zm\r");
+        mSerial.write("#*Zm\r");
     }
     public void Test() {
-        //mSerial.write("#"+i+"s200\r");
+        mSerial.write("#"+i+"s200\r");
         delay(10);
-        //mSerial.write("#"+i+"A\r");
+        mSerial.write("#"+i+"A\r");
     }
     
     public void submit(int theValue) {
