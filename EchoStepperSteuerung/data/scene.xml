@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene>
+	<act name="improvisation-satz-1" motormodus="p1" preview="improvisation-satz-1.png">
+		<buehne>
+			<strang name="A">
+				<leinwand ID="1" angle="0.0"/>
+				<leinwand ID="2" angle="0.0"/>
+				<leinwand ID="3" angle="0.0"/>
+				<leinwand ID="4" angle="0.0"/>
+				<leinwand ID="5" angle="0.0"/>
+				<leinwand ID="6" angle="0.0"/>
+				<leinwand ID="7" angle="0.0"/>
+				<leinwand ID="8" angle="0.0"/>
+			</strang>
+			<strang name="B">
+				<leinwand ID="1" angle="0.0"/>
+				<leinwand ID="2" angle="0.0"/>
+				<leinwand ID="3" angle="0.0"/>
+				<leinwand ID="4" angle="0.0"/>
+				<leinwand ID="5" angle="0.0"/>
+			</strang>
+			<strang name="C">
+				<leinwand ID="1" angle="0.0" speed="0.1"/>
+				<leinwand ID="2" angle="0.0"/>
+				<leinwand ID="3" angle="0.0"/>
+				<leinwand ID="4" angle="0.0"/>
+			</strang>
+		</buehne>
+	</act>
+</scene>
