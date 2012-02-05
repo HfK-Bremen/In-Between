@@ -1,0 +1,316 @@
+ <?xml version="1.0"?>
+ <performance>
+    <akt name="Xenakis">
+        <satz name="satzTestName"
+            satzID_y="1" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- spreizwinkel ermitteln und auffaddieren d1=links d0=rechts-->
+            <leinwand name="leinwand1" speed_o="5" position_s="100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="8" drehrichtung_d="0"></leinwand>
+        </satz>
+        <satz name="satz2"
+            satzID_y="2" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+        </satz>
+    </akt>
+    <akt name="Improvisation I">
+        <satz name="satz1"
+            satzID_y="3" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="0" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+        </satz>
+        <satz name="satz2"
+            satzID_y="4" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-400" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-400" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-100" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-400" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-300" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-400" drehrichtung_d="0"></leinwand>
+        </satz>
+        <satz name="satz3"
+            satzID_y="5" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="-50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="392" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-8" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="392" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+        </satz>
+
+    </akt>
+    <akt name="Kolongala">
+        <satz name="satz1"
+            satzID_y="6" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-411" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="288" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-155" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="178" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="67" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="333" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-155" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="200" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-78" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-289" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-256" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-133" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-322" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-167" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-344" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-567" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-78" drehrichtung_d="0"></leinwand>
+        </satz>
+        
+
+    </akt>
+    <akt name="Improvisation II">
+        <satz name="satz1"
+            satzID_y="7" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-433" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="217" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-233" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="217" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="-33" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="417" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-233" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="217" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-25" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-175" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-225" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-175" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-425" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-167" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-417" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-367" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-17" drehrichtung_d="0"></leinwand>
+        </satz>
+        <satz name="satz2"
+            satzID_y="8" 
+            drehmodus_p="1"
+            richtungswechsel_t="1"
+            wiederholungen_W="10"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="3500">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="50" drehrichtung_d="1"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+        </satz>
+        <satz name="satz3"
+            satzID_y="9" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="150" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="150" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="-50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="392" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-208" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="192" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-250" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-450" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-50" drehrichtung_d="0"></leinwand>
+        </satz>
+    </akt>
+    <akt name="Tilde">
+        <satz name="satz1"
+            satzID_y="10" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-550" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="50" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="-150" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="392" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-208" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="192" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-150" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-550" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-350" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-550" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-550" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-150" drehrichtung_d="0"></leinwand>
+        </satz>
+        <satz name="satz2"
+            satzID_y="11" 
+            drehmodus_p="2"
+            richtungswechsel_t="0"
+            wiederholungen_W="1"
+            startrampe_b="4000"
+            bremsrampe_B="4000"
+            pause_P="0">
+            <!-- drehrichtung d ermitteln und anpassen spreizwinkel ermitteln und auffaddieren -->
+            <leinwand name="leinwand1" speed_o="5" position_s="-808" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand2" speed_o="5" position_s="-208" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand3" speed_o="5" position_s="-608" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand4" speed_o="5" position_s="-208" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand5" speed_o="5" position_s="-408" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand6" speed_o="5" position_s="392" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand7" speed_o="5" position_s="-208" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand8" speed_o="5" position_s="192" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand9" speed_o="5" position_s="-400" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand10" speed_o="5" position_s="-600" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand11" speed_o="5" position_s="-600" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand12" speed_o="5" position_s="-600" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand13" speed_o="5" position_s="-800" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand14" speed_o="5" position_s="-592" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand15" speed_o="5" position_s="-792" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand16" speed_o="5" position_s="-792" drehrichtung_d="0"></leinwand>
+            <leinwand name="leinwand17" speed_o="5" position_s="-392" drehrichtung_d="0"></leinwand>
+        </satz>
+
+    </akt>
+
+
+</performance>
