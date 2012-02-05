@@ -7,8 +7,7 @@ import controlP5.Button;
 import controlP5.ControlEvent;
 import controlP5.ControlP5;
 import controlP5.ControlTimer;
-import controlP5.Textarea;
-import static de.hfkbremen.echo.sketches.MotorInterfaceProperties.*;
+import static de.hfkbremen.echo.app.Properties.*;
 import processing.core.PApplet;
 import processing.xml.XMLElement;
 
@@ -18,41 +17,44 @@ public class AppMotorInterface
 
     private Serial mSerial;
 
-    Leinwand[] leinwaende;
+    private Leinwand[] leinwaende;
 
-    ControlP5 controlP5;
+    private ControlP5 controlP5;
 
-    int margin;
+    private int margin;
 
-    int breiteSingleView;
+    private int breiteSingleView;
 
-    int hoeheSingleView;
+    private int hoeheSingleView;
 
-    String aktName;
+    private String aktName;
 
-    String satzName;
+    private String satzName;
 
-    int aktuellerAkt;
+    private int aktuellerAkt;
 
-    int aktuellerSatz;
+    private ControlTimer showDauer;
 
-    int satzID;
+    private XMLElement performance;
 
-    ControlTimer showDauer;
+    private AktWerte[] akte;
 
-    XMLElement performance;
+    private Button stop;
 
-    AktWerte[] akte;
+    private static final boolean RUN_WITH_SERIAL = false;
 
-    Button stop;
+    private static final String TAB_NAME_MANUELL = "Manuell";
 
-    Textarea myTextarea;
+    private static final String XML_SCENE_DATA = "inbetween.xml";
+
+    private Button[] mSatzButtons;
+
+    private static final int MAX_NUMBER_OF_SATZ_BUTTONS = 3;
 
     public void setup() {
         Serial.DEBUG = false;
 
-        //size(screen.width, screen.height);//beim skalieren verhältnis beachten ca 16/10
-        size(1280, 700);
+        size(screen.width - 100, screen.height - 100);// beim skalieren verhältnis beachten ca 16/10
         background(0);
         ellipseMode(CENTER);
         smooth();
@@ -62,58 +64,68 @@ public class AppMotorInterface
         margin = 10;
         breiteSingleView = (width - 9 * margin) / 8;
         hoeheSingleView = breiteSingleView + breiteSingleView / 3;
-        //mSerial = Serial.open("/dev/tty.SLAB_USBtoUART");
 
+        if (RUN_WITH_SERIAL) {
+            mSerial = Serial.open("/dev/tty.SLAB_USBtoUART");
+        }
 
         xmlEinlesen();
-        //saetzeSchreiben();
+        if (RUN_WITH_SERIAL) {
+            saetzeSchreiben();
+        }
+
+        controlP5 = new ControlP5(this);
+        mSatzButtons = new Button[MAX_NUMBER_OF_SATZ_BUTTONS];
         leinwandUndSliderInit();
-        triggerButtonUndTabsInit();
+        initTriggersButtonsAndTabs();
+
+        /* intialize */
+        aktuellerAkt = XENAKIS;
+        handleTabGUI();
     }
 
     public void draw() {
         background(color(77, 77, 77));
-        for (int i = 0; i < numberOfLeinwaende; i++) {
+        for (int i = 0; i < NUMBER_OF_LEINWAENDE; i++) {
             leinwaende[ i].display();
         }
         controlWindow();
-
     }
 
     public class Leinwand {
 
-        int steps;
+        public int steps;
 
-        float currentAngle;
+        public boolean simulationsDrehung;
 
-        boolean simulationsDrehung;
+        public int positionX;
 
-        int id;
+        public int positionY;
 
-        int positionX;
+        public int akt;
 
-        int positionY;
+        public int satz;
 
-        int akt;
+        private int mID;
 
-        int satz;
+        private float mCurrentAngle;
 
-        Leinwand(int X, int Y, int i) {
+        public Leinwand(int X, int Y, int i) {
             steps = 0;
-            currentAngle = 0;
+            mCurrentAngle = 0;
             positionX = X;
             positionY = Y;
             simulationsDrehung = false;
-            id = i;
+            mID = i;
             akt = 0;
             satz = 0;
         }
 
-        void display() {
+        public void display() {
             pushMatrix();
             translate(positionX, positionY);
             fill(255);
-            text("Motor " + (id + 1), margin / 2, margin + margin / 2);
+            text("Motor " + (mID + 1), margin / 2, margin + margin / 2);
             text("Angle: " + (steps * 0.9f) + "°", margin / 2, (margin + margin / 2) * 2);
             fill(0, 105, 140);
             text(actualAngle() + "°", margin / 2, (margin + margin / 2) * 3);
@@ -129,10 +141,10 @@ public class AppMotorInterface
             pushMatrix();
             noStroke();
             fill(0, 54, 82);
-            if (radians(currentAngle) < radians((steps * 0.9f))) {
-                arc(0, 0, breiteSingleView / 2, breiteSingleView / 2, radians(currentAngle), radians((steps * 0.9f)));
+            if (radians(mCurrentAngle) < radians((steps * 0.9f))) {
+                arc(0, 0, breiteSingleView / 2, breiteSingleView / 2, radians(mCurrentAngle), radians((steps * 0.9f)));
             } else {
-                arc(0, 0, breiteSingleView / 2, breiteSingleView / 2, radians((steps * 0.9f)), radians(currentAngle));
+                arc(0, 0, breiteSingleView / 2, breiteSingleView / 2, radians((steps * 0.9f)), radians(mCurrentAngle));
             }
             strokeWeight(2);
             stroke(0, 105, 140);
@@ -155,34 +167,34 @@ public class AppMotorInterface
             popMatrix();
         }
 
-        float actualAngle() {
-            float winkelProFrame = (akte[akt].saetze[satz].leinwaende[id].speed / frameRate) * 0.9f;
-            float differenz = (steps * 0.9f - currentAngle);
-            float angle = currentAngle;
-            if (currentAngle < steps * 0.9 && simulationsDrehung) {
+        public float actualAngle() {
+            float winkelProFrame = (akte[akt].saetze[satz].leinwaende[mID].speed / frameRate) * 0.9f;
+            float differenz = (steps * 0.9f - mCurrentAngle);
+            float angle = mCurrentAngle;
+            if (mCurrentAngle < steps * 0.9 && simulationsDrehung) {
                 if (abs(differenz) < winkelProFrame) {
                     simulationsDrehung = false;
-                    currentAngle = steps * 0.9f;
+                    mCurrentAngle = steps * 0.9f;
                 } else {
                     angle = angle + winkelProFrame;
                 }
-            } else if (currentAngle > steps * 0.9 && simulationsDrehung) {
+            } else if (mCurrentAngle > steps * 0.9 && simulationsDrehung) {
                 if (abs(differenz) < winkelProFrame) {
                     simulationsDrehung = false;
-                    currentAngle = steps * 0.9f;
+                    mCurrentAngle = steps * 0.9f;
                 } else {
                     angle = angle - winkelProFrame;
                 }
             }
-            currentAngle = angle;
+            mCurrentAngle = angle;
             return angle;
         }
     }
 
-    void controlWindow() {
+    private void controlWindow() {
         pushMatrix();
-        translate(leinwaende[ 12].positionX + breiteSingleView + margin,
-                  leinwaende[ 12].positionY);
+        translate(leinwaende[ LETZTE_LEINWAND].positionX + breiteSingleView + margin,
+                  leinwaende[ LETZTE_LEINWAND].positionY);
         stroke(50);
         strokeWeight(1);
         noFill();
@@ -208,199 +220,218 @@ public class AppMotorInterface
         popMatrix();
     }
 
-    void leinwandUndSliderInit() {
-        controlP5 = new ControlP5(this);
-        leinwaende = new Leinwand[numberOfLeinwaende];
-        for (int i = 0; i < numberOfLeinwaende; i++) {
+    private void leinwandUndSliderInit() {
+        leinwaende = new Leinwand[NUMBER_OF_LEINWAENDE];
+        for (int i = 0; i < NUMBER_OF_LEINWAENDE; i++) {
             if (i <= 7) {
                 leinwaende[ i] = new Leinwand(margin + i * (breiteSingleView + margin), margin, i);
-                controlP5.addSlider("steps" + i, -motorSchrittBereich, motorSchrittBereich, 0, margin + i * (breiteSingleView + margin), margin + hoeheSingleView + margin, hoeheSingleView / 2 + margin, margin).setId(i);
-                controlP5.controller("steps" + i).moveTo("Manuell");
+                controlP5.addSlider("steps" + i,
+                                    -motorSchrittBereich,
+                                    motorSchrittBereich,
+                                    0,
+                                    margin + i * (breiteSingleView + margin),
+                                    margin + hoeheSingleView + margin,
+                                    hoeheSingleView / 2 + margin,
+                                    margin).setId(i);
+                controlP5.controller("steps" + i).moveTo(TAB_NAME_MANUELL);
             }
             if (i > 7 && i < 13) {
-                leinwaende[ i] = new Leinwand(margin + (i - 8) * (breiteSingleView + margin), margin + hoeheSingleView + margin + margin + margin, i);
+                leinwaende[i] = new Leinwand(margin + (i - 8) * (breiteSingleView + margin), margin + hoeheSingleView + margin + margin + margin, i);
                 controlP5.addSlider("steps" + i, -motorSchrittBereich, motorSchrittBereich, 0, margin + (i - 8) * (breiteSingleView + margin), (margin + hoeheSingleView + margin) * 2 + margin, hoeheSingleView / 2 + margin, margin).setId(i);
-                controlP5.controller("steps" + i).moveTo("Manuell");
+                controlP5.controller("steps" + i).moveTo(TAB_NAME_MANUELL);
             }
-            if (i > 12) {
-                leinwaende[ i] = new Leinwand(margin + (i - 13) * (breiteSingleView + margin), (margin + hoeheSingleView + margin + margin) * 2 + margin, i);
-                controlP5.addSlider("steps" + i, -motorSchrittBereich, motorSchrittBereich, 0, margin + (i - 13) * (breiteSingleView + margin), (margin + hoeheSingleView + margin) * 3 + margin + margin, hoeheSingleView / 2 + margin, margin).setId(i);
-                controlP5.controller("steps" + i).moveTo("Manuell");
+            if (i > LETZTE_LEINWAND) {
+                leinwaende[i] = new Leinwand(margin + (i - 13) * (breiteSingleView + margin), (margin + hoeheSingleView + margin + margin) * 2 + margin, i);
+                controlP5.addSlider("steps" + i,
+                                    -motorSchrittBereich,
+                                    motorSchrittBereich,
+                                    0,
+                                    margin + (i - 13) * (breiteSingleView + margin),
+                                    (margin + hoeheSingleView + margin) * 3 + margin + margin,
+                                    hoeheSingleView / 2 + margin, margin).setId(i);
+                controlP5.controller("steps" + i).moveTo(TAB_NAME_MANUELL);
             }
         }
-
     }
 
-    void triggerButtonUndTabsInit() {
-        controlP5.setColorForeground(255);
-        controlP5.addButton("Start", 0,
-                            leinwaende[ 12].positionX + breiteSingleView + 2 * margin,
-                            leinwaende[ 12].positionY + hoeheSingleView + 3 * margin,
+    private void initTriggersButtonsAndTabs() {
+        controlP5.addButton("Start",
+                            0,
+                            leinwaende[LETZTE_LEINWAND].positionX + breiteSingleView + 2 * margin,
+                            leinwaende[LETZTE_LEINWAND].positionY + hoeheSingleView + 3 * margin,
                             (3 * breiteSingleView) / 2 - margin / 2,
-                            margin * 2).setId(25);
+                            margin * 2).setId(START_BUTTON);
         controlP5.controller("Start").moveTo("global");
 
         stop = controlP5.addButton("Notfall Stop", 0,
-                                   leinwaende[ 12].positionX + breiteSingleView + 2 * margin,
-                                   leinwaende[ 12].positionY + hoeheSingleView + 6 * margin,
+                                   leinwaende[LETZTE_LEINWAND].positionX + breiteSingleView + 2 * margin,
+                                   leinwaende[LETZTE_LEINWAND].positionY + hoeheSingleView + 6 * margin,
                                    (3 * breiteSingleView) / 2 - margin / 2,
                                    margin * 2);
-        stop.setId(26);
+        stop.setId(STOP_BUTTON);
         stop.setColorBackground(color(159, 17, 44));
         stop.setColorActive(color(244, 11, 55));
-
         stop.moveTo("global");
 
+        for (int i = 0; i < MAX_NUMBER_OF_SATZ_BUTTONS; i++) {
+            mSatzButtons[i] = controlP5.addButton("Satz" + (i + 1) + " Laden", 0,
+                                                  leinwaende[LETZTE_LEINWAND].positionX + breiteSingleView + 3 * margin + (3 * breiteSingleView) / 2 - margin / 2,
+                                                  leinwaende[LETZTE_LEINWAND].positionY + hoeheSingleView + (3 * (i + 1)) * margin,
+                                                  (3 * breiteSingleView) / 2 - margin / 2,
+                                                  margin * 2);
+            mSatzButtons[i].setId(LADEN_SATZ_1 + i);
+            mSatzButtons[i].moveTo("global");
+        }
 
-
-
-        controlP5.addButton("Satz1 Laden", 0,
-                            leinwaende[ 12].positionX + breiteSingleView + 3 * margin + (3 * breiteSingleView) / 2 - margin / 2,
-                            leinwaende[ 12].positionY + hoeheSingleView + 3 * margin,
+        /* saetze laden */
+        controlP5.addButton("Saetze Schreiben", 0,
+                            leinwaende[LETZTE_LEINWAND].positionX + breiteSingleView + 2 * margin,
+                            leinwaende[LETZTE_LEINWAND].positionY + hoeheSingleView + 9 * margin,
                             (3 * breiteSingleView) / 2 - margin / 2,
-                            margin * 2).setId(27);
-        controlP5.controller("Satz1 Laden").moveTo("global");
+                            margin * 2).setId(SAETZE_SCHREIBEN_BUTTON);
+        controlP5.controller("Saetze Schreiben").moveTo("global");
 
-        controlP5.addButton("Satz2 Laden", 0,
-                            leinwaende[ 12].positionX + breiteSingleView + 3 * margin + (3 * breiteSingleView) / 2 - margin / 2,
-                            leinwaende[ 12].positionY + hoeheSingleView + 6 * margin,
-                            (3 * breiteSingleView) / 2 - margin / 2,
-                            margin * 2).setId(28);
-        controlP5.controller("Satz2 Laden").moveTo("global");
-
-        controlP5.addButton("Satz3 Laden", 0,
-                            leinwaende[ 12].positionX + breiteSingleView + 3 * margin + (3 * breiteSingleView) / 2 - margin / 2,
-                            leinwaende[ 12].positionY + hoeheSingleView + 9 * margin,
-                            (3 * breiteSingleView) / 2 - margin / 2,
-                            margin * 2).setId(29);
-        controlP5.controller("Satz3 Laden").moveTo("global");
-
-
-
-
-
+        /* tab */
         controlP5.tab("default").activateEvent(true);
         controlP5.tab("default").setLabel("Xenakis");
-        controlP5.tab("default").setId(18);
+        controlP5.tab("default").setId(TAB_XENAKIS);
 
         controlP5.tab("Impro I").activateEvent(true);
-        controlP5.tab("Impro I").setId(19);
+        controlP5.tab("Impro I").setId(TAB_IMPRO1);
 
         controlP5.tab("Kolongala").activateEvent(true);
-        controlP5.tab("Kolongala").setId(20);
+        controlP5.tab("Kolongala").setId(TAB_KOLONGALA);
 
         controlP5.tab("Impro II").activateEvent(true);
-        controlP5.tab("Impro II").setId(21);
+        controlP5.tab("Impro II").setId(TAB_IMPRO2);
 
         controlP5.tab("Tilde").activateEvent(true);
-        controlP5.tab("Tilde").setId(22);
+        controlP5.tab("Tilde").setId(TAB_TILDE);
 
         controlP5.tab("Ende").activateEvent(true);
-        controlP5.tab("Ende").setId(23);
+        controlP5.tab("Ende").setId(TAB_ENDE);
 
-        controlP5.tab("Manuell").activateEvent(true);
-        controlP5.tab("Manuell").setId(24);
+        controlP5.tab(TAB_NAME_MANUELL).activateEvent(true);
+        controlP5.tab(TAB_NAME_MANUELL).setId(TAB_MANUELL);
     }
 
-    void controlEvent(ControlEvent theEvent) {
-        if (theEvent.isController() && theEvent.controller().id() > 24) {
+    private void ladeSatz(final int pAkt, final int pSatz) {
+        if (pAkt >= 0 && pAkt < akte.length) {
+            if (pSatz >= 0 && pSatz < akte[pAkt].saetze.length) {
+                satzAufMotorAufrufen(pAkt, pSatz);
+                leinwandSliderSetzen(pAkt, pSatz);
+                satzName = akte[pAkt].saetze[pSatz].name;
+            }
+        }
+    }
+
+    public void controlEvent(ControlEvent theEvent) {
+        if (theEvent.isController() && theEvent.controller().id() == SAETZE_SCHREIBEN_BUTTON) {
+            saetzeSchreiben();
+        } else if (theEvent.isController() && theEvent.controller().id() > LAST_TAB_ID) {
             switch (theEvent.controller().id()) {
-                case (25):
+                case (START_BUTTON):
                     GO();
                     break;
-                case (26):
-                    mSerial.write("#*S\r");
-                    break;
-                case (27):
-                    if (akte[aktuellerAkt].saetze.length > 0) {
-                        satzAufMotorAufrufen(aktuellerAkt, SATZ1);
-                        leinwandSliderSetzen(aktuellerAkt, SATZ1);
-                    }
-
-
-                    break;
-                case (28):
-                    if (akte[aktuellerAkt].saetze.length > 0) {
-                        satzAufMotorAufrufen(aktuellerAkt, SATZ2);
-                        leinwandSliderSetzen(aktuellerAkt, SATZ2);
+                case (STOP_BUTTON):
+                    if (RUN_WITH_SERIAL) {
+                        mSerial.write("#*S\r");
                     }
                     break;
-                case (29):
-                    if (akte[aktuellerAkt].saetze.length > 0) {
-                        satzAufMotorAufrufen(aktuellerAkt, SATZ3);
-                        leinwandSliderSetzen(aktuellerAkt, SATZ3);
-                    }
-                    break;
-
+                default:
+                    ladeSatz(aktuellerAkt, theEvent.controller().id() - LADEN_SATZ_1);
             }
         } else if (theEvent.isTab()) {
-
             switch (theEvent.tab().id()) {
-                case (18):
-                    saetzeSchreiben();
+                case (TAB_XENAKIS):
                     aktuellerAkt = XENAKIS;
                     break;
-                case (19):
-
+                case (TAB_IMPRO1):
                     aktuellerAkt = IMPRO1;
                     break;
-                case (20):
-
+                case (TAB_KOLONGALA):
                     aktuellerAkt = KOLONGALA;
                     break;
-                case (21):
-
+                case (TAB_IMPRO2):
                     aktuellerAkt = IMPRO2;
                     break;
-                case (22):
-
+                case (TAB_TILDE):
                     aktuellerAkt = TILDE;
                     break;
-                case (23):
-
+                case (TAB_ENDE):
                     aktuellerAkt = ENDE;
                     break;
-                case (24):
-                    //manuell
+                case (TAB_MANUELL):
+                    aktuellerAkt = MANUELL;
                     break;
             }
-
+            handleTabGUI();
         } else if (theEvent.isController()) {
             leinwaende[theEvent.controller().id()].steps = (int)theEvent.controller().value();
         }
     }
 
-    void saetzeSchreiben() {
+    private void handleTabGUI() {
+        /* handle manuel tab */
+        if (aktuellerAkt == MANUELL) {
+            aktName = TAB_NAME_MANUELL;
+            satzName = "";
+            for (int i = 0; i < MAX_NUMBER_OF_SATZ_BUTTONS; i++) {
+                mSatzButtons[i].hide();
+            }
+            return;
+        }
+
+        /* update control window */
+        aktName = akte[aktuellerAkt].aktname;
+        // todo restore satzName when switching back to current akt
+        satzName = "";
+
+        /* handle satz button visibility */
+        for (int i = 0; i < MAX_NUMBER_OF_SATZ_BUTTONS; i++) {
+            if (i < akte[aktuellerAkt].saetze.length) {
+                mSatzButtons[i].show();
+            } else {
+                mSatzButtons[i].hide();
+            }
+        }
+    }
+
+    private void saetzeSchreiben() {
+        if (!RUN_WITH_SERIAL) {
+            return;
+        }
+
         for (int i = 0; i < akte.length; i++) {
             for (int j = 0; j < akte[i].saetze.length; j++) {
                 for (int x = 0; x < akte[i].saetze[j].leinwaende.length; x++) {
                     final int mID = x + 1;
                     mSerial.write("#" + mID + "p" + akte[i].saetze[j].drehmodus + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "t" + akte[i].saetze[j].richtungswechsel + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "W" + akte[i].saetze[j].wiederholungen + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "b" + akte[i].saetze[j].startrampe + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "B" + akte[i].saetze[j].bremsrampe + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "P" + akte[i].saetze[j].pause + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "o" + akte[i].saetze[j].leinwaende[x].speed + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "s" + akte[i].saetze[j].leinwaende[x].position + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + "d" + akte[i].saetze[j].leinwaende[x].drehrichtung + "\r");
-                    delay(20);
+                    delay(DELAY_BETWEEN_SERIAL_WRITES);
                     mSerial.write("#" + mID + ">" + akte[i].saetze[j].satzID + "\r");
                 }
             }
         }
     }
 
-    void xmlEinlesen() {
-        performance = new XMLElement(this, "inbetween.xml");
+    private void xmlEinlesen() {
+        performance = new XMLElement(this, XML_SCENE_DATA);
         int aktnum = performance.getChildCount();
         akte = new AktWerte[aktnum];
         for (int i = 0; i < aktnum; i++) {
@@ -411,7 +442,6 @@ public class AppMotorInterface
             for (int j = 0; j < satznum; j++) {
                 XMLElement satzliste = aktliste.getChild(j);
                 int leinwandnum = satzliste.getChildCount();
-                println("### leinwandnum " + leinwandnum);
                 akte[i].saetze[j] = new SatzWerte(leinwandnum);
                 akte[i].saetze[j].satzID = satzliste.getInt("satzID_y");
                 akte[i].saetze[j].drehmodus = satzliste.getInt("drehmodus_p");
@@ -432,47 +462,46 @@ public class AppMotorInterface
         }
     }
 
-    void leinwandSliderSetzen(int akt, int satz) {
-        for (int i = 0; i < numberOfLeinwaende; i++) {
+    private void leinwandSliderSetzen(int akt, int satz) {
+        for (int i = 0; i < NUMBER_OF_LEINWAENDE; i++) {
             controlP5.controller("steps" + i).setValue(akte[akt].saetze[satz].leinwaende[i].position);
             leinwaende[i].akt = akt;
             leinwaende[i].satz = satz;
-            println("Winkel Setzen auf:" + akte[akt].saetze[satz].leinwaende[i].position);
-
+            if (DEBUG) {
+                println("Winkel Setzen auf:" + akte[akt].saetze[satz].leinwaende[i].position);
+            }
         }
-        aktName = akte[akt].aktname;
-        satzName = akte[akt].saetze[satz].name;
-
-
+//        aktName = akte[akt].aktname;
+//        satzName = akte[akt].saetze[satz].name;
     }
 
-    void satzAufMotorAufrufen(int akt, int satz) {
-        mSerial.write("#*y" + akte[akt].saetze[satz].satzID + "\r");
-        println("lade Satz:" + akte[akt].saetze[satz].satzID);
-
-
-
+    private void satzAufMotorAufrufen(int akt, int satz) {
+        if (RUN_WITH_SERIAL) {
+            mSerial.write("#*y" + akte[akt].saetze[satz].satzID + "\r");
+        }
+        if (DEBUG) {
+            println("lade Satz:" + akte[akt].saetze[satz].satzID);
+        }
     }
 
-    public void GO() {
-
-        //mSerial.write("#*A\r");
-        for (int i = 0; i < numberOfLeinwaende; i++) {
-            if (leinwaende[i].currentAngle != leinwaende[i].steps * 0.9) {
+    private void GO() {
+        if (RUN_WITH_SERIAL) {
+            mSerial.write("#*A\r");
+        }
+        for (int i = 0; i < NUMBER_OF_LEINWAENDE; i++) {
+            if (leinwaende[i].mCurrentAngle != leinwaende[i].steps * 0.9) {
                 leinwaende[i].simulationsDrehung = true;
-
-
             }
         }
     }
 
-    class AktWerte {
+    private class AktWerte {
 
-        SatzWerte[] saetze;
+        public SatzWerte[] saetze;
 
-        String aktname;
+        public String aktname;
 
-        int satzarraysize;
+        public int satzarraysize;
 
         AktWerte(int arraysize) {
             satzarraysize = arraysize;
@@ -481,29 +510,29 @@ public class AppMotorInterface
         }
     }
 
-    class SatzWerte {
+    private class SatzWerte {
 
-        LeinwandWerte[] leinwaende;
+        public LeinwandWerte[] leinwaende;
 
-        int leinwandarraysize;
+        public int leinwandarraysize;
 
-        int satzID;
+        public int satzID;
 
-        int drehmodus;
+        public int drehmodus;
 
-        int richtungswechsel;
+        public int richtungswechsel;
 
-        int wiederholungen;
+        public int wiederholungen;
 
-        int startrampe;
+        public int startrampe;
 
-        int bremsrampe;
+        public int bremsrampe;
 
-        int pause;
+        public int pause;
 
-        String name;
+        public String name;
 
-        SatzWerte(int arraysize) {
+        public SatzWerte(int arraysize) {
             satzID = 0;
             drehmodus = 2;
             richtungswechsel = 0;
@@ -514,19 +543,18 @@ public class AppMotorInterface
             name = "satz";
             leinwandarraysize = arraysize;
             leinwaende = new LeinwandWerte[leinwandarraysize];
-            println("### leinwandarraysize " + leinwandarraysize);
         }
     }
 
-    class LeinwandWerte {
+    private class LeinwandWerte {
 
-        int position;
+        public int position;
 
-        int speed;
+        public int speed;
 
-        int drehrichtung;
+        public int drehrichtung;
 
-        LeinwandWerte() {
+        public LeinwandWerte() {
             position = 0;
             speed = 5;
             drehrichtung = 0;
@@ -535,7 +563,7 @@ public class AppMotorInterface
 
     public static void main(String[] args) {
         PApplet.main(new String[] {
-                    "--present",
+                    //                    "--present",
                     AppMotorInterface.class.getName()});
     }
 }

@@ -3,7 +3,6 @@
 package de.hfkbremen.echo.app;
 
 
-import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
@@ -24,13 +23,9 @@ public class Serial {
 
     public InputStream in; // should be done like with out ?
 
-    public Serial(SerialPort pSerialPort, OutputStream pOutputStream) {
+    private Serial(SerialPort pSerialPort, OutputStream pOutputStream) {
         serialPort = pSerialPort;
         out = pOutputStream;
-
-//           serialPort.setSerialPortParams(57600,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
-
-
         in = null;
         try {
             in = serialPort.getInputStream();
@@ -69,21 +64,21 @@ public class Serial {
 
         while (portList.hasMoreElements()) {
             final CommPortIdentifier portId = (CommPortIdentifier)portList.nextElement();
-            System.out.println("Found port id: " + portId);
+            System.out.println("### Found port id: " + portId);
 
             if (portId.getPortType() == mComPortIdentifier) {
-                System.out.println("Found CommPortIdentifier.");
+                System.out.println("### Found CommPortIdentifier.");
 
                 if (portId.getName().equals(defaultPort)) {
-                    System.out.println("Found port " + defaultPort);
+                    System.out.println("### Found port " + defaultPort);
 
                     SerialPort serialPort;
                     OutputStream outputStream = null;
 
                     try {
-                        serialPort = (SerialPort)portId.open("SimpleWrite", 2000);
+                        serialPort = (SerialPort)portId.open("AppMotorInterface", 5000);
                     } catch (PortInUseException e) {
-                        System.out.println("Port in use.");
+                        System.err.println("### Port in use.");
                         continue;
                     }
 
@@ -106,8 +101,8 @@ public class Serial {
                     try {
                         serialPort.notifyOnOutputEmpty(true);
                     } catch (Exception e) {
-                        System.out.println("Error setting event notification");
-                        System.out.println(e.toString());
+                        System.err.println("### Error setting event notification");
+                        System.err.println(e.toString());
                         System.exit(-1);
                     }
 
@@ -117,7 +112,7 @@ public class Serial {
         }
 
         if (!portFound) {
-            System.out.println("port " + defaultPort + " not found.");
+            System.err.println("### port " + defaultPort + " not found.");
         }
         return null;
     }
@@ -147,9 +142,6 @@ public class Serial {
         }
     }
 
-    /**
-     *
-     */
     public static class SerialReader
             implements Runnable {
 
@@ -165,7 +157,8 @@ public class Serial {
             try {
                 while ((len = this.in.read(buffer)) > -1) {
                     if (DEBUG) {
-                        System.out.print("." + new String(buffer, 0, len));
+                        // todo this might not be perfect at all ...
+                        System.out.print(new String(buffer, 0, len));
                     }
                 }
             } catch (IOException e) {
@@ -185,7 +178,7 @@ public class Serial {
 
         public void run() {
             try {
-                int c = 0;
+                int c;
                 while ((c = System.in.read()) > -1) {
                     this.out.write(c);
                 }
@@ -195,26 +188,26 @@ public class Serial {
         }
     }
 
-    void connect(String portName) throws Exception {
-        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
-        if (portIdentifier.isCurrentlyOwned()) {
-            System.out.println("Error: Port is currently in use");
-        } else {
-            CommPort commPort = portIdentifier.open(this.getClass().getName(), 2000);
-
-            if (commPort instanceof SerialPort) {
-                SerialPort mSerialPort = (SerialPort)commPort;
-                mSerialPort.setSerialPortParams(57600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-
-                InputStream mIn = mSerialPort.getInputStream();
-                OutputStream mOut = mSerialPort.getOutputStream();
-
-                (new Thread(new SerialReader(mIn))).start();
-                (new Thread(new SerialWriter(mOut))).start();
-
-            } else {
-                System.out.println("Error: Only serial ports are handled by this example.");
-            }
-        }
-    }
+//    private void connect(String portName) throws Exception {
+//        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+//        if (portIdentifier.isCurrentlyOwned()) {
+//            System.out.println("Error: Port is currently in use");
+//        } else {
+//            CommPort commPort = portIdentifier.open(this.getClass().getName(), 2000);
+//
+//            if (commPort instanceof SerialPort) {
+//                SerialPort mSerialPort = (SerialPort)commPort;
+//                mSerialPort.setSerialPortParams(57600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+//
+//                InputStream mIn = mSerialPort.getInputStream();
+//                OutputStream mOut = mSerialPort.getOutputStream();
+//
+//                (new Thread(new SerialReader(mIn))).start();
+//                (new Thread(new SerialWriter(mOut))).start();
+//
+//            } else {
+//                System.out.println("Error: Only serial ports are handled by this example.");
+//            }
+//        }
+//    }
 }
