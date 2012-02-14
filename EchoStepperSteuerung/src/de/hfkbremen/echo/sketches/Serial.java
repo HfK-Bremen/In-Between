@@ -46,7 +46,7 @@ public class Serial {
     }
 
     public void write(final String pMessageString) {
-        System.out.println("Writing \"" + pMessageString + "\" to " + serialPort.getName());
+        System.out.println("\n>>> \"" + pMessageString + "\" to " + serialPort.getName());
 
         try {
             out.write(pMessageString.getBytes());
@@ -158,7 +158,7 @@ public class Serial {
             int len;
             try {
                 while ((len = this.in.read(buffer)) > -1) {
-                    System.out.print("." + new String(buffer, 0, len));
+                    System.out.print(new String(buffer, 0, len));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

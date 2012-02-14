@@ -41,7 +41,7 @@ public class AppMotorInterface
 
     private Button stop;
 
-    private static final boolean RUN_WITH_SERIAL = false;
+    private static final boolean RUN_WITH_SERIAL = true;
 
     private static final String TAB_NAME_MANUELL = "Manuell";
 
