@@ -1,4 +1,6 @@
-
+/*
+ * 
+ */
 
 package de.hfkbremen.echo.sketches;
 
